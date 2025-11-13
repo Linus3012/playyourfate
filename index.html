@@ -1,34 +1,402 @@
-!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="de">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Meine Webseite</title>
+  <meta charset="UTF-8" />
+  <title>Play Your Fate</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #f2f2f2;
-            text-align: center;
-            padding: 40px;
-        }
-        .box {
-            background: white;
-            padding: 20px;
-            margin: auto;
-            max-width: 400px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        }
-    </style>
+  <style>
+    :root {
+      --bg: #05060a;
+      --card-bg: #10121a;
+      --accent: #a855f7;
+      --accent-soft: rgba(168, 85, 247, 0.25);
+      --text-main: #f9fafb;
+      --text-muted: #9ca3af;
+      --border-subtle: #1f2933;
+      --error: #f87171;
+      --radius-lg: 18px;
+      --radius-xl: 26px;
+      --shadow-soft: 0 18px 45px rgba(0,0,0,0.6);
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: system-ui, sans-serif;
+      background: radial-gradient(circle at top, #1f2937 0, #05060a 55%);
+      color: var(--text-main);
+      text-align: center;
+      padding: 20px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 500px;
+    }
+
+    .card {
+      background: linear-gradient(145deg, #0c0e16, #05060a 60%, #111827);
+      border-radius: var(--radius-xl);
+      padding: 30px 24px;
+      box-shadow: var(--shadow-soft);
+      border: 1px solid rgba(148, 163, 184, 0.15);
+      position: relative;
+    }
+
+    h1 {
+      margin: 10px 0 5px;
+      font-size: 26px;
+    }
+
+    .subtitle {
+      color: var(--text-muted);
+      font-size: 14px;
+      margin-bottom: 22px;
+    }
+
+    .pill-row {
+      display: flex;
+      gap: 7px;
+      flex-wrap: wrap;
+      margin-bottom: 22px;
+      justify-content: center;
+    }
+
+    .pill {
+      padding: 5px 10px;
+      border: 1px solid rgba(148,163,184,0.25);
+      border-radius: 999px;
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .input-section {
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(148,163,184,0.15);
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+      align-items: center;
+    }
+
+    input {
+      padding: 10px 14px;
+      width: 100%;
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.3);
+      background: #020617;
+      color: var(--text-main);
+      font-size: 15px;
+    }
+
+    input:focus {
+      border-color: var(--accent);
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(168,85,247,0.25);
+    }
+
+    button {
+      border: none;
+      background: var(--accent);
+      color: white;
+      padding: 12px 18px;
+      font-weight: bold;
+      border-radius: 999px;
+      cursor: pointer;
+      box-shadow: 0 10px 22px rgba(168,85,247,0.45);
+      transition: 0.15s;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 15px 28px rgba(168,85,247,0.55);
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    .error {
+      color: var(--error);
+      margin-top: 12px;
+      font-size: 14px;
+    }
+
+    .result {
+      margin-top: 22px;
+      background: radial-gradient(circle at top right, var(--accent-soft), rgba(15,23,42,0.9));
+      border: 1px solid rgba(148,163,184,0.25);
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      text-align: left;
+    }
+
+    .result-text {
+      font-size: 17px;
+      margin-bottom: 8px;
+    }
+
+    .result-meta {
+      color: var(--text-muted);
+      font-size: 13px;
+    }
+
+    .tags {
+      margin-top: 8px;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .tag {
+      padding: 4px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.4);
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+  </style>
 </head>
-<body>
 
-    <div class="box">
-        <h1>Hallo!</h1>
-        <p>Das ist meine erste GitHub-Page.</p>
-        <p>Es funktioniert! 🎉</p>
+
+<body>
+<div class="container">
+  <div class="card">
+
+    <h1>Play Your Fate</h1>
+    <p class="subtitle">Eine gezogene Karte – eine klare Empfehlung.</p>
+
+    <div class="pill-row">
+      <div class="pill">❤️ Herz · Beziehungen</div>
+      <div class="pill">✚ Kreuz · Logik & Analyse</div>
+      <div class="pill">🔱 Schaufel · Entscheidungen</div>
+      <div class="pill">♦️ Ecken · Action & Umsetzung</div>
     </div>
+
+    <div class="input-section">
+      <input id="kartenInput" placeholder="z. B.: herz-7, kreuz-ass, ecken-9">
+      <button id="btnStart">Fate</button>
+    </div>
+
+    <div id="errorBox" class="error" style="display:none;"></div>
+
+    <div id="resultBox" class="result" style="display:none;">
+      <div id="resultText" class="result-text"></div>
+      <div id="resultMeta" class="result-meta"></div>
+      <div id="tagList" class="tags"></div>
+    </div>
+
+  </div>
+</div>
+
+
+<script>
+//
+// 🔍 Hilfsfunktion: Query-Parameter lesen
+//
+function getParameter(name) {
+  const params = new URLSearchParams(window.location.search);
+  return params.get(name);
+}
+
+//
+// 🔍 Kartenwert prüfen
+//
+function parseCard(raw) {
+  const parts = raw.toLowerCase().trim().split("-");
+  if (parts.length !== 2) return null;
+
+  const farbe = parts[0];
+  const wert = parts[1];
+
+  const erlaubteFarben = ["herz", "kreuz", "schaufel", "ecken"];
+  const erlaubteWerte = ["6","7","8","9","10","unter","ober","koenig","ass"];
+
+  if (!erlaubteFarben.includes(farbe)) return null;
+  if (!erlaubteWerte.includes(wert)) return null;
+
+  return { farbe, wert };
+}
+
+//
+// 💬 Offline-Fate-Generator (kurz, klar, deutsch)
+//
+function generateFateOffline(card) {
+  const themen = {
+    herz: "Beziehungen & Menschen",
+    kreuz: "Herausforderungen & Logik",
+    schaufel: "Entscheidungen & Verantwortung",
+    ecken: "Action & Umsetzung"
+  };
+
+  const texte = {
+    herz: [
+      "Sprich direkt aus, was du meinst.",
+      "Kurze Rückmeldung reicht völlig.",
+      "Ein kleiner Kontakt löst viel.",
+      "Heute helfen klare Worte."
+    ],
+    kreuz: [
+      "Sortiere erst, handle dann.",
+      "Ein Mini-Plan reicht für heute.",
+      "Bleib sachlich, das hilft.",
+      "Nicht überdenken – strukturieren."
+    ],
+    schaufel: [
+      "Triff eine Entscheidung und geh weiter.",
+      "Ein „Nein“ spart Energie.",
+      "Halte deinen Fokus eng.",
+      "Heute zählt Klarheit."
+    ],
+    ecken: [
+      "Starte einfach – sofort.",
+      "Mach’s kurz und pragmatisch.",
+      "Kleine Schritte reichen.",
+      "Erledige 1-Minuten-Aufgaben direkt."
+    ]
+  };
+
+  const hohe = ["10","ober","koenig","ass"];
+  const niedrige = ["6","7"];
+
+  let intensität = "mittel";
+  if (hohe.includes(card.wert)) intensität = "hoch";
+  if (niedrige.includes(card.wert)) intensität = "leicht";
+
+  const intros = {
+    leicht: ["Hinweis:", "Kurz:", "Tipp:"],
+    mittel: ["Einschätzung:", "Empfehlung:", "Kurzfassung:"],
+    hoch: ["Klarer Hinweis:", "Wichtiger Punkt:", "Direkt:"]
+  };
+
+  const outros = {
+    leicht: ["Reicht so.", "Mehr brauchst du nicht.", "Gut für heute."],
+    mittel: ["Passt gut.", "Klingt sinnvoll.", "Gute Linie."],
+    hoch: ["Mach das zuerst.", "Priorität!", "Das führt dich weiter."]
+  };
+
+  function pick(a) {
+    return a[Math.floor(Math.random() * a.length)];
+  }
+
+  const thema = themen[card.farbe];
+  const text = pick(intros[intensität]) + " " + pick(texte[card.farbe]) + " " + pick(outros[intensität]);
+
+  return {
+    ok: true,
+    main: text,
+    meta: `Karte: ${card.farbe.toUpperCase()} · ${card.wert.toUpperCase()} · Thema: ${thema}`,
+    tags: [
+      `Intensität: ${intensität}`,
+      `Thema: ${thema}`
+    ]
+  };
+}
+
+//
+// 🎨 Ausgabe rendern
+//
+function showResult(res) {
+  const box = document.getElementById("resultBox");
+  const text = document.getElementById("resultText");
+  const meta = document.getElementById("resultMeta");
+  const tags = document.getElementById("tagList");
+
+  text.textContent = res.main;
+  meta.textContent = res.meta;
+
+  tags.innerHTML = "";
+  res.tags.forEach(t => {
+    const span = document.createElement("span");
+    span.className = "tag";
+    span.textContent = t;
+    tags.appendChild(span);
+  });
+
+  box.style.display = "block";
+}
+
+//
+// ❌ Fehler anzeigen
+//
+function showError(msg) {
+  const e = document.getElementById("errorBox");
+  e.textContent = msg;
+  e.style.display = "block";
+  document.getElementById("resultBox").style.display = "none";
+}
+
+//
+// 🔄 Fehler verstecken
+//
+function hideError() {
+  document.getElementById("errorBox").style.display = "none";
+}
+
+//
+// ▶ Hauptfunktion (Offline-Version)
+//
+function runFate() {
+  hideError();
+
+  const input = document.getElementById("kartenInput").value.trim();
+  const card = parseCard(input);
+
+  if (!card) {
+    showError("Bitte gib eine gültige Karte ein – z. B. „herz-8“, „kreuz-ass“, „ecken-9“.");
+    return;
+  }
+
+  const result = generateFateOffline(card);
+  showResult(result);
+}
+
+//
+// ▶ Button aktivieren
+//
+document.getElementById("btnStart").addEventListener("click", async () => {
+  hideError();
+
+  const input = document.getElementById("kartenInput").value.trim();
+  const card = parseCard(input);
+
+  if (!card) {
+    showError('Bitte gib eine gültige Karte ein – z. B. „herz-8“, „kreuz-ass“, „ecken-9“.');
+    return;
+  }
+
+  try {
+    const res = await fetch(`/api/fate?karte=${encodeURIComponent(input)}`);
+    const data = await res.json();
+
+    if (!data.ok) {
+      showError(data.error || "Unbekannter Fehler.");
+      return;
+    }
+
+    showResult(data);
+  } catch (err) {
+    console.error(err);
+    showError("Backend ist nicht erreichbar.");
+  }
+});
+
+
+//
+// 📌 QR-Parameter übernehmen → ?karte=ecken-9
+//
+const qCard = getParameter("karte");
+if (qCard) {
+  document.getElementById("kartenInput").value = qCard;
+}
+</script>
 
 </body>
 </html>
