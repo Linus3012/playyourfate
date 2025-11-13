@@ -20,17 +20,24 @@
       --shadow-soft: 0 18px 45px rgba(0,0,0,0.6);
     }
 
-    body {
+    /* wichtig für die Ränder */
+    html, body {
       margin: 0;
-      min-height: 100vh;
+      padding: 0;
+      height: 100%;
+      background: radial-gradient(circle at top, #1f2937 0, #05060a 55%);
+    }
+
+    body {
+      min-height: 100dvh;
       display: flex;
       align-items: center;
       justify-content: center;
       font-family: system-ui, sans-serif;
-      background: radial-gradient(circle at top, #1f2937 0, #05060a 55%);
       color: var(--text-main);
       text-align: center;
       padding: 20px;
+      overflow-x: hidden;
     }
 
     .container {
@@ -111,6 +118,7 @@
       cursor: pointer;
       box-shadow: 0 10px 22px rgba(168,85,247,0.45);
       transition: 0.15s;
+      white-space: nowrap;
     }
 
     button:hover {
@@ -162,6 +170,34 @@
       color: var(--text-muted);
     }
 
+    /* 🔧 Mobile-Optimierung */
+    @media (max-width: 480px) {
+      body {
+        padding: 12px 10px;
+      }
+
+      .card {
+        padding: 22px 16px;
+        border-radius: 20px;
+      }
+
+      h1 {
+        font-size: 22px;
+      }
+
+      .subtitle {
+        font-size: 13px;
+      }
+
+      .input-section {
+        grid-template-columns: 1fr;
+      }
+
+      button {
+        width: 100%;
+      }
+    }
+
   </style>
 </head>
 
@@ -198,17 +234,11 @@
 
 
 <script>
-//
-// 🔍 Hilfsfunktion: Query-Parameter lesen
-//
 function getParameter(name) {
   const params = new URLSearchParams(window.location.search);
   return params.get(name);
 }
 
-//
-// 🔍 Kartenwert prüfen
-//
 function parseCard(raw) {
   const parts = raw.toLowerCase().trim().split("-");
   if (parts.length !== 2) return null;
@@ -225,9 +255,6 @@ function parseCard(raw) {
   return { farbe, wert };
 }
 
-//
-// 💬 Offline-Fate-Generator (kurz, klar, deutsch)
-//
 function generateFateOffline(card) {
   const themen = {
     herz: "Beziehungen & Menschen",
@@ -300,9 +327,6 @@ function generateFateOffline(card) {
   };
 }
 
-//
-// 🎨 Ausgabe rendern
-//
 function showResult(res) {
   const box = document.getElementById("resultBox");
   const text = document.getElementById("resultText");
@@ -323,9 +347,6 @@ function showResult(res) {
   box.style.display = "block";
 }
 
-//
-// ❌ Fehler anzeigen
-//
 function showError(msg) {
   const e = document.getElementById("errorBox");
   e.textContent = msg;
@@ -333,16 +354,10 @@ function showError(msg) {
   document.getElementById("resultBox").style.display = "none";
 }
 
-//
-// 🔄 Fehler verstecken
-//
 function hideError() {
   document.getElementById("errorBox").style.display = "none";
 }
 
-//
-// ▶ Hauptfunktion (Offline-Version)
-//
 function runFate() {
   hideError();
 
@@ -358,40 +373,13 @@ function runFate() {
   showResult(result);
 }
 
-//
-// ▶ Button aktivieren
-//
-document.getElementById("btnStart").addEventListener("click", async () => {
-  hideError();
-
-  const input = document.getElementById("kartenInput").value.trim();
-  const card = parseCard(input);
-
-  if (!card) {
-    showError('Bitte gib eine gültige Karte ein – z. B. „herz-8“, „kreuz-ass“, „ecken-9“.');
-    return;
-  }
-
-  try {
-    const res = await fetch(`/api/fate?karte=${encodeURIComponent(input)}`);
-    const data = await res.json();
-
-    if (!data.ok) {
-      showError(data.error || "Unbekannter Fehler.");
-      return;
-    }
-
-    showResult(data);
-  } catch (err) {
-    console.error(err);
-    showError("Backend ist nicht erreichbar.");
-  }
+// Button + Enter-Taste
+document.getElementById("btnStart").addEventListener("click", runFate);
+document.getElementById("kartenInput").addEventListener("keydown", (e) => {
+  if (e.key === "Enter") runFate();
 });
 
-
-//
-// 📌 QR-Parameter übernehmen → ?karte=ecken-9
-//
+// QR-Parameter übernehmen → ?karte=ecken-9
 const qCard = getParameter("karte");
 if (qCard) {
   document.getElementById("kartenInput").value = qCard;
