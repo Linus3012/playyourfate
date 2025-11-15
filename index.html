@@ -190,7 +190,7 @@
     </div>
 
     <div class="input-section">
-      <input id="kartenInput" placeholder="z. B.: herz-7, kreuz-ass, schaufel-10, ecken-unter">
+      <input id="kartenInput" placeholder="z. B.: herz-2, kreuz-3, schaufel-10, ecken-unter">
       <button id="btnStart">Fate anzeigen</button>
     </div>
 
@@ -218,7 +218,11 @@ function parseCard(raw) {
   const wert = parts[1];
 
   const erlaubteFarben = ["herz", "kreuz", "schaufel", "ecken"];
-  const erlaubteWerte = ["6","7","8","9","10","unter","ober","koenig","ass"];
+  // volles 52er-Deck: 2–10 + unter/ober/koenig/ass
+  const erlaubteWerte = [
+    "2","3","4","5","6","7","8","9","10",
+    "unter","ober","koenig","ass"
+  ];
 
   if (!erlaubteFarben.includes(farbe)) return null;
   if (!erlaubteWerte.includes(wert)) return null;
@@ -262,8 +266,13 @@ function generateFate(card) {
     ]
   };
 
+  // Intensität:
+  // 2–7  -> leicht
+  // 8–9  -> mittel
+  // 10, Ober, König, Ass -> hoch
   const hohe = ["10","ober","koenig","ass"];
-  const niedrige = ["6","7"];
+  const niedrige = ["2","3","4","5","6","7"];
+
   let intensitaet = "mittel";
   if (hohe.includes(card.wert)) intensitaet = "hoch";
   if (niedrige.includes(card.wert)) intensitaet = "leicht";
@@ -283,7 +292,7 @@ function generateFate(card) {
   function pick(a) { return a[Math.floor(Math.random() * a.length)]; }
 
   const thema = themen[card.farbe];
-  const text = pick(intros[intensitaet]) + " " + pick(texte[card.farbe]) + " " + pick(outros[intensitaet]);
+  const text = (pick(intros[intensitaet]) + " " + pick(texte[card.farbe]) + " " + pick(outros[intensitaet])).trim();
 
   return {
     main: text,
@@ -333,7 +342,7 @@ function runFate() {
   const card = parseCard(input);
 
   if (!card) {
-    showError('Bitte gib eine gültige Karte ein – z. B. „herz-8“, „kreuz-ass“, „schaufel-10“, „ecken-unter“.');
+    showError('Bitte gib eine gültige Karte ein – z. B. „herz-2“, „kreuz-3“, „schaufel-10“, „ecken-unter“.');
     return;
   }
 
